@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, setLoading }) => {
   const [searchText, setSearchText] = useState("");
   const jamendoClientId = import.meta.env.VITE_jamendoClientId;
 
@@ -8,8 +8,9 @@ const SearchBar = ({ onSearch }) => {
     setSearchText(e.target.value);
   };
 
-  async function getSongs(songListLength = 50) {
+  async function getSongs(songListLength = 2) {
     try {
+      setLoading(true);
       if (searchText === "") {
         throw new Error("No Search Input");
       }
@@ -29,9 +30,12 @@ const SearchBar = ({ onSearch }) => {
         throw new Error("No Results from Search Input");
       }
       onSearch(data.results);
+      setSearchText("");
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       return false;
+    } finally {
+      setLoading(false);
     }
   }
 
