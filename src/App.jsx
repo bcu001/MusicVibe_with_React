@@ -34,18 +34,13 @@ function App() {
   };
 
   const getCurrSongItunes = (id) => {
-    console.log(id);
-    console.log(data);
     const c = data.findIndex((s) => {
       return s.trackId === id;
     });
-    console.log(c);
     setCurrSong(c);
     setCurrAudioSrc(data[c].previewUrl);
     setCurrSongCover(data[c].artworkUrl100);
     setIsDisplayPlayer(true);
-    console.log(data[c].previewUrl);
-    console.log(data[c].artworkUrl100);
   };
 
   return (
