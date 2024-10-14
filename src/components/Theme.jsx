@@ -9,8 +9,6 @@ export default function Theme({getTheme}) {
     useEffect(() => {
         const theme = isDarkTheme ? 'dark' : 'light';
         document.documentElement.setAttribute("data-theme", theme);
-        const bg_img = isDarkTheme ? '/dark-bg.svg' : 'bg.svg';
-        document.body.style.backgroundImage = `url(${bg_img})`;
     }, [isDarkTheme]);
 
     const toggleTheme = () => {
