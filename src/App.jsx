@@ -49,11 +49,11 @@ function App() {
   };
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen flex flex-col">
       <Navbar />
       <SearchBar onSearch={handleSearchData} setLoading={handleLoading} />
       <div
-        className={`relative w-auto h-[75%] mt-5  flex gap-16 flex-wrap justify-center overflow-auto  ${
+        className={`flex-grow relative w-auto mt-5  flex gap-16 flex-wrap justify-center overflow-auto  ${
           isLoading ? "items-center" : ""
         }  p-2`}
         id="songList"
