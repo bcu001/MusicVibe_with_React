@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-export default function Theme() {
+export default function Theme({getTheme}) {
     const [isDarkTheme, setIsDarkTheme] = useState(() => {
         const savedTheme = localStorage.getItem('theme') || 'light';
         return (savedTheme === 'dark');
@@ -20,6 +20,7 @@ export default function Theme() {
     useEffect(() => {
         const theme = isDarkTheme ? 'dark' : 'light';
         localStorage.setItem('theme', theme);
+        getTheme(isDarkTheme);
     }, [isDarkTheme])
 
 

@@ -37,7 +37,7 @@ function App() {
     console.log(id);
     console.log(data);
     const c = data.findIndex((s) => {
-      return (s.trackId === id);
+      return s.trackId === id;
     });
     console.log(c);
     setCurrSong(c);
@@ -66,8 +66,8 @@ function App() {
               <Card
                 id={s.trackId}
                 SongCover={s.artworkUrl100}
-                title={s.trackCensoredName || 'Unkown Song'}
-                ArtishName={s.artistName || 'Unkown Artist'}
+                title={s.trackCensoredName || "Unknown Name"}
+                ArtishName={s.artistName || "Unknown Artist"}
                 key={uuidv4()}
                 getId={getCurrSongItunes}
               />

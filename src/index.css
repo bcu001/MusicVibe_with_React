@@ -37,8 +37,8 @@ input {
 }
 
 .navbar{
-  /* filter: invert(1); */
   background-color: var(--card-bg);
+  color: var(--text-color);
 }
 
 .animate-textMove {
