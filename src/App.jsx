@@ -30,7 +30,22 @@ function App() {
     setCurrAudioSrc(data[c].audio);
     setCurrSongCover(data[c].album_image);
     setIsDisplayPlayer(true);
-    console.log("AAAAAAAAAAAAAAAa");
+    console.log("jamendo");
+  };
+
+  const getCurrSongItunes = (id) => {
+    console.log(id);
+    console.log(data);
+    const c = data.findIndex((s) => {
+      return (s.trackId === id);
+    });
+    console.log(c);
+    setCurrSong(c);
+    setCurrAudioSrc(data[c].previewUrl);
+    setCurrSongCover(data[c].artworkUrl100);
+    setIsDisplayPlayer(true);
+    console.log(data[c].previewUrl);
+    console.log(data[c].artworkUrl100);
   };
 
   return (
@@ -49,12 +64,12 @@ function App() {
           data.map((s) => {
             return (
               <Card
-                id={s.id}
-                SongCover={s.album_image}
-                title={s.name}
-                ArtishName={s.artist_name}
+                id={s.trackId}
+                SongCover={s.artworkUrl100}
+                title={s.trackCensoredName || 'Unkown Song'}
+                ArtishName={s.artistName || 'Unkown Artist'}
                 key={uuidv4()}
-                getId={getCurrSong}
+                getId={getCurrSongItunes}
               />
             );
           })
