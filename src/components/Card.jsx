@@ -1,6 +1,16 @@
-const Card = ({ title, ArtishName, SongCover, id }) => {
+import { useEffect } from "react";
+
+const Card = ({ title, ArtishName, SongCover, id, getId }) => {
+  const handleClick = () => {
+    getId(id);
+  };
+
   return (
-    <div id={id} className="w-[220px] h-[300px] bg-[#e7e3e3] p-2 rounded-lg hover:cursor-pointer hover:bg-[#d3cece]">
+    <div
+      onClick={handleClick}
+      id={id}
+      className="card w-[220px] h-[300px] bg-[#e7e3e3] p-2 rounded-lg hover:cursor-pointer hover:scale-105 transition-transform duration-300" 
+    >
       <img
         className="w-[220px] h-[230px] object-cover rounded-lg"
         src={SongCover}

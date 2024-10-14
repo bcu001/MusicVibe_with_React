@@ -1,14 +1,17 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import Theme from "./Theme";
+import { FaMusic } from "react-icons/fa6";
 
 const Navbar = () => {
   return (
-    <nav className="bg-black text-white">
-      <ul className="border-2 border-black p-2 w-screen">
-        <li className="flex gap-2 font-bold text-2xl cursor-pointer">
-          <img width="25" src="/musicVibeLogo.svg" alt="" />
+    <nav className="bg-black text-white navbar">
+      <ul className=" p-2 w-screen flex items-center justify-between pr-10">
+        <li className="flex items-center gap-2 font-bold text-2xl cursor-pointer">
+          <FaMusic color="" />
           MusicVibe
-          {/* <NavLink to="index.html">MusicVibe</NavLink> */}
+        </li>
+        <li>
+          <Theme />
         </li>
       </ul>
     </nav>

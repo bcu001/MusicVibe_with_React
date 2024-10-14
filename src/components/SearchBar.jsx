@@ -8,7 +8,7 @@ const SearchBar = ({ onSearch, setLoading }) => {
     setSearchText(e.target.value);
   };
 
-  async function getSongs(songListLength = 2) {
+  async function getSongs(songListLength = 12) {
     try {
       setLoading(true);
       if (searchText === "") {

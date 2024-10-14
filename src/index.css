@@ -2,15 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+/* light */
+:root {
+  --text-color: black;
+  --background-color: white;
+  --button-color: white;
+  --card-bg: #c9c6c6;
+}
+
+/* dark */
+[data-theme="dark"] {
+  --text-color: white;
+  --background-color: #242424;
+  --button-color: #1a1a1a;
+  --card-bg: #121212;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: var(--background-color);
+}
+
+input {
+  color: black;
+}
+
+.card{
+  color: var(--text-color);
+  background-color: var(--card-bg);
+}
+
+.card:hover{
+  background-color: var();
+}
+
+.navbar{
+  /* filter: invert(1); */
+  background-color: var(--card-bg);
 }
 
 .animate-textMove {
   animation: textMove 8s infinite alternate-reverse ease-in-out;
   width: 20px;
 }
-
 
 @keyframes textMove {
   0% {
