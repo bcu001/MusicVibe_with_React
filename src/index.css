@@ -37,7 +37,7 @@ input {
 }
 
 ::-webkit-scrollbar{
-  background-color: var(--background-color);
+  display: none;
 }
 
 .navbar{
