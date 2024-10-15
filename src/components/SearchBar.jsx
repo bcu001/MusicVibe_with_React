@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const SearchBar = ({ onSearch, setLoading }) => {
   const [searchText, setSearchText] = useState("");
   const jamendoClientId = import.meta.env.VITE_jamendoClientId;
+  const [totalSongs, setTotalSongs] = useState(0);
 
   const handlerChange = (e) => {
     setSearchText(e.target.value);
@@ -27,6 +28,7 @@ const SearchBar = ({ onSearch, setLoading }) => {
       }
       onSearch(data.results);
       setSearchText("");
+      setTotalSongs(data.results.length);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       return false;
