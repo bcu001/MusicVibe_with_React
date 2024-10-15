@@ -41,9 +41,9 @@ const Player = ({
 
   return (
     <div
-      className={` fixed h-[470px] w-screen flex items-center justify-center ${
+      className={`fixed  w-screen flex items-center justify-center ${
         isDisplay
-          ? ""
+          ? "h-[470px]"
           : "h-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
       } transition-all duration-500 ${songCover || "hidden"}`}
     >
