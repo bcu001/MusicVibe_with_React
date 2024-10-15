@@ -44,7 +44,11 @@ const Player = ({ audioScr, songCover, isDisplay, setIsDisplay }) => {
 
       <div className="btns flex justify-center">
         <button className="p-1" onClick={handleAudio}>
-          {currSongPlaying ? <FaPause /> : <FaPlay />}
+          {currSongPlaying ? (
+            <FaPause color="white" />
+          ) : (
+            <FaPlay color="white" />
+          )}
         </button>
       </div>
       <audio loop ref={AudioRef} src={audioScr}></audio>
@@ -52,7 +56,7 @@ const Player = ({ audioScr, songCover, isDisplay, setIsDisplay }) => {
         onClick={handleClose}
         className=" absolute top-0 -right-2 w-10 rounded-full "
       >
-        <IoIosClose size={30} />
+        <IoIosClose size={30} color="white" />
       </button>
     </div>
   );
