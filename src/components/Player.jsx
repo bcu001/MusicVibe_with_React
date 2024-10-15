@@ -2,8 +2,16 @@ import { useRef, useState, useEffect, useContext } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 import { IoPlayBackSharp, IoPlayForward } from "react-icons/io5";
+import { RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
 
-const Player = ({ audioScr, songCover, isDisplay, setIsDisplay, nextSongPlay, prevSongPlay }) => {
+const Player = ({
+  audioScr,
+  songCover,
+  isDisplay,
+  setIsDisplay,
+  nextSongPlay,
+  prevSongPlay,
+}) => {
   const AudioRef = useRef(null);
   const [currSongPlaying, setCurrSongPlaying] = useState(false);
 
@@ -27,16 +35,22 @@ const Player = ({ audioScr, songCover, isDisplay, setIsDisplay, nextSongPlay, pr
     setIsDisplay(false);
   };
 
+  const handleShow = () => {
+    setIsDisplay(true);
+  };
+
   return (
     <div
-      className={`fixed h-[470px] w-screen flex items-center justify-center ${
-        isDisplay ? "flex" : "hidden"
-      }`}
+      className={` fixed h-[470px] w-screen flex items-center justify-center ${
+        isDisplay
+          ? ""
+          : "h-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+      } transition-all duration-500 ${songCover || "hidden"}`}
     >
       <div
-        className={`bg-[#00000060] h-[140px] w-[330px] rounded-xl overflow-hidden  ${
-          isDisplay ? "flex" : "hidden"
-        } gap-10 transition-transform duration-500 items-center backdrop-blur-sm justify-center`}
+        className={`bg-[#00000060] h-[140px] w-[330px] rounded-xl flex ${
+          isDisplay ? "" : "-left-40"
+        } gap-10 transition-transform duration-1000 items-center backdrop-blur-sm justify-center fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
       >
         <div
           className={`${
@@ -72,9 +86,19 @@ const Player = ({ audioScr, songCover, isDisplay, setIsDisplay, nextSongPlay, pr
         <audio loop ref={AudioRef} src={audioScr}></audio>
         <button
           onClick={handleClose}
-          className=" absolute top-1 -right-1 w-10 hover:animate-spin flex justify-center"
+          className=" absolute top-1 -right-1 w-10 hover:animate-spin justify-center hidden"
         >
           <IoIosClose size={30} color="white" />
+        </button>
+        <button
+          onClick={isDisplay ? handleClose : handleShow}
+          className={`absolute ${isDisplay ? "-left-12" : "-right-12"}`}
+        >
+          {isDisplay ? (
+            <RxDoubleArrowLeft color="white" size={50} />
+          ) : (
+            <RxDoubleArrowRight color="white" size={50} />
+          )}
         </button>
       </div>
     </div>
