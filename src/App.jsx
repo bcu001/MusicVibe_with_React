@@ -46,34 +46,26 @@ function App() {
 
   const nextSongPlay = () => {
     let cs = currSong;
-    console.log(cs);
     if (totalSongs > currSong) {
-      cs +=1;
-      setCurrSong(cs);
+      cs += 1;
     } else {
       cs = 0;
-      setCurrSong(cs);
     }
-    console.log(cs);
+    setCurrSong(cs);
     setCurrAudioSrc(data[cs].previewUrl);
     setCurrSongCover(data[cs].artworkUrl100);
-    console.log('next');
   };
 
   const prevSongPlay = () => {
     let cs = currSong;
-    console.log(cs);
     if (currSong > 0) {
-      cs-=1;
-      setCurrSong(cs);
+      cs -= 1;
     } else {
       cs = totalSongs;
-      setCurrSong(cs);
     }
-    console.log(cs);
+    setCurrSong(cs);
     setCurrAudioSrc(data[cs].previewUrl);
     setCurrSongCover(data[cs].artworkUrl100);
-    console.log('prev');
   };
 
   return (
