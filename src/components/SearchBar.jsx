@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 
-const SearchBar = ({ onSearch, setLoading }) => {
+const SearchBar = ({ onSearch, setLoading, setTotalSongs }) => {
   const [searchText, setSearchText] = useState("");
   const jamendoClientId = import.meta.env.VITE_jamendoClientId;
-  const [totalSongs, setTotalSongs] = useState(0);
 
   const handlerChange = (e) => {
     setSearchText(e.target.value);
   };
 
-  async function getSongsItunes(songListLength= 20){
-    try{
+  async function getSongsItunes(songListLength = 20) {
+    try {
       setLoading(true);
       if (searchText === "") {
         throw new Error("No Search Input");
       }
 
-      const response = await fetch(`https://itunes.apple.com/search?term=${searchText}&limit=${songListLength}`)
+      const response = await fetch(
+        `https://itunes.apple.com/search?term=${searchText}&limit=${songListLength}`
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -28,7 +29,7 @@ const SearchBar = ({ onSearch, setLoading }) => {
       }
       onSearch(data.results);
       setSearchText("");
-      setTotalSongs(data.results.length);
+      setTotalSongs(data.results.length - 1);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       return false;

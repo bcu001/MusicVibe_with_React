@@ -13,6 +13,7 @@ function App() {
   const [currAudioSrc, setCurrAudioSrc] = useState("");
   const [currSongCover, setCurrSongCover] = useState("");
   const [isDisplayPlayer, setIsDisplayPlayer] = useState(false);
+  const [totalSongs, setTotalSongs] = useState(0);
 
   const handleSearchData = (searchData) => {
     setData([...searchData]);
@@ -43,10 +44,46 @@ function App() {
     setIsDisplayPlayer(true);
   };
 
+  const nextSongPlay = () => {
+    let cs = currSong;
+    console.log(cs);
+    if (totalSongs > currSong) {
+      cs +=1;
+      setCurrSong(cs);
+    } else {
+      cs = 0;
+      setCurrSong(cs);
+    }
+    console.log(cs);
+    setCurrAudioSrc(data[cs].previewUrl);
+    setCurrSongCover(data[cs].artworkUrl100);
+    console.log('next');
+  };
+
+  const prevSongPlay = () => {
+    let cs = currSong;
+    console.log(cs);
+    if (currSong > 0) {
+      cs-=1;
+      setCurrSong(cs);
+    } else {
+      cs = totalSongs;
+      setCurrSong(cs);
+    }
+    console.log(cs);
+    setCurrAudioSrc(data[cs].previewUrl);
+    setCurrSongCover(data[cs].artworkUrl100);
+    console.log('prev');
+  };
+
   return (
     <div className="w-screen h-screen flex flex-col">
       <Navbar />
-      <SearchBar onSearch={handleSearchData} setLoading={handleLoading} />
+      <SearchBar
+        onSearch={handleSearchData}
+        setLoading={handleLoading}
+        setTotalSongs={setTotalSongs}
+      />
       <div
         className={`flex-grow relative w-auto mt-5  flex gap-16 flex-wrap justify-center overflow-auto  ${
           isLoading ? "items-center" : ""
@@ -63,7 +100,7 @@ function App() {
                 SongCover={s.artworkUrl100}
                 title={s.trackCensoredName || "Unknown Name"}
                 ArtishName={s.artistName || "Unknown Artist"}
-                key={uuidv4()}
+                key={s.trackId}
                 getId={getCurrSongItunes}
               />
             );
@@ -74,6 +111,8 @@ function App() {
           songCover={currSongCover}
           isDisplay={isDisplayPlayer}
           setIsDisplay={setIsDisplayPlayer}
+          nextSongPlay={nextSongPlay}
+          prevSongPlay={prevSongPlay}
         />
       </div>
     </div>
