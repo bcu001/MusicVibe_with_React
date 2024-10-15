@@ -92,7 +92,7 @@ function App() {
                 SongCover={s.artworkUrl100}
                 title={s.trackCensoredName || "Unknown Name"}
                 ArtishName={s.artistName || "Unknown Artist"}
-                key={s.trackId}
+                key={uuidv4()}
                 getId={getCurrSongItunes}
               />
             );

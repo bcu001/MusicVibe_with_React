@@ -49,8 +49,8 @@ const Player = ({
     >
       <div
         className={`bg-[#00000060] h-[140px] w-[330px] rounded-xl flex ${
-          isDisplay ? "" : "-left-40"
-        } gap-10 transition-transform duration-1000 items-center backdrop-blur-sm justify-center fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
+          isDisplay ? "left-1/2 " : "-left-40"
+        } gap-10 transition-transform duration-1000 items-center backdrop-blur-sm justify-center fixed top-1/2 transform -translate-x-1/2 -translate-y-1/2`}
       >
         <div
           className={`${
