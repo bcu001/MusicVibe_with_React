@@ -9,61 +9,97 @@ const SearchBar = ({ onSearch, setLoading, setTotalSongs }) => {
   };
 
   async function getSongsItunes(songListLength = 20) {
+    const query = searchText.trim();
+
+    if (!query) {
+      console.error("No Search Input");
+      return;
+    }
+
     try {
       setLoading(true);
-      if (searchText === "") {
-        throw new Error("No Search Input");
-      }
 
-      const response = await fetch(
-        `https://itunes.apple.com/search?term=${searchText}&limit=${songListLength}`
-      );
+      const url = new URL("https://itunes.apple.com/search");
+      url.searchParams.set("term", query);
+      url.searchParams.set("media", "music");
+      url.searchParams.set("entity", "song");
+      url.searchParams.set("country", "us");
+      url.searchParams.set("limit", String(songListLength));
+
+      const response = await fetch(url);
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(`iTunes API error: ${response.status}`);
       }
 
       const data = await response.json();
-      if (data.results.length === 0) {
-        throw new Error("No Results from Search Input");
-      }
-      onSearch(data.results);
+
+      // Normalize iTunes results to Jamendo-compatible fields.
+      const songs = data.results.map((song) => ({
+        ...song,
+        id: song.trackId,
+        name: song.trackName,
+        artist_name: song.artistName,
+        album_name: song.collectionName,
+        album_image: song.artworkUrl100,
+        image: song.artworkUrl100,
+        audio: song.previewUrl,
+        duration: song.trackTimeMillis
+          ? Math.floor(song.trackTimeMillis / 1000)
+          : 0,
+        source: "itunes",
+      }));
+
+      onSearch(songs);
+      setTotalSongs(songs.length);
       setSearchText("");
-      setTotalSongs(data.results.length - 1);
     } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-      return false;
+      console.error("iTunes song search failed:", error);
+      onSearch([]);
+      setTotalSongs(0);
     } finally {
       setLoading(false);
     }
   }
 
   async function getSongs(songListLength = 12) {
+    const query = searchText.trim();
+
+    if (!query) {
+      console.error("No Search Input");
+      return;
+    }
+
     try {
       setLoading(true);
-      if (searchText === "") {
-        throw new Error("No Search Input");
-      }
 
-      const response = await fetch(
-        `https://api.jamendo.com/v3.0/tracks/?client_id=${jamendoClientId}&format=json&limit=${songListLength}&search=${encodeURIComponent(
-          searchText
-        )}`
-      );
+      const url = new URL("https://api.jamendo.com/v3.0/tracks/");
+      url.searchParams.set("client_id", jamendoClientId);
+      url.searchParams.set("format", "json");
+      url.searchParams.set("limit", String(songListLength));
+      url.searchParams.set("search", query);
+
+      const response = await fetch(url);
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(`Jamendo API error: ${response.status}`);
       }
 
       const data = await response.json();
-      if (data.results.length === 0) {
-        throw new Error("No Results from Search Input");
+
+      if (!data.results?.length) {
+        onSearch([]);
+        setTotalSongs(0);
+        return;
       }
+
       onSearch(data.results);
+      setTotalSongs(data.results.length);
       setSearchText("");
     } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-      return false;
+      console.error("Jamendo song search failed:", error);
+      onSearch([]);
+      setTotalSongs(0);
     } finally {
       setLoading(false);
     }
@@ -71,38 +107,31 @@ const SearchBar = ({ onSearch, setLoading, setTotalSongs }) => {
 
   const handlerKeyDown = (e) => {
     if (e.key === "Enter") {
-      // getSongs();
       getSongsItunes();
     }
   };
 
   return (
-    <>
-      <div className="flex flex-col">
-        <input
-          className="outline-none p-1 m-2 bg-[#e0dddd] rounded-md"
-          type="search"
-          name="searchBar"
-          value={searchText}
-          onChange={(e) => {
-            handlerChange(e);
-          }}
-          onKeyDown={handlerKeyDown}
-          id="searchBar"
-          placeholder="Enter song name"
-        />
-        <button
-          className="bg-green-500 p-1 mx-2 active:bg-green-600 rounded-md text-white font-bold"
-          id="searchBtn"
-          onClick={() => {
-            // getSongs();
-            getSongsItunes();
-          }}
-        >
-          Search
-        </button>
-      </div>
-    </>
+    <div className="flex flex-col">
+      <input
+        className="outline-none p-1 m-2 bg-[#e0dddd] rounded-md"
+        type="search"
+        name="searchBar"
+        value={searchText}
+        onChange={handlerChange}
+        onKeyDown={handlerKeyDown}
+        id="searchBar"
+        placeholder="Enter song name"
+      />
+
+      <button
+        className="bg-green-500 p-1 mx-2 active:bg-green-600 rounded-md text-white font-bold"
+        id="searchBtn"
+        onClick={() => getSongsItunes()}
+      >
+        Search
+      </button>
+    </div>
   );
 };
 
